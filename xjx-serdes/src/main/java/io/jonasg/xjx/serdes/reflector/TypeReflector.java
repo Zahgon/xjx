@@ -17,24 +17,22 @@ public class TypeReflector<T> {
     }
 
     public static <T> TypeReflector<T> reflect(Class<T> clazz) {
-        return new TypeReflector<>(clazz);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public InstanceReflector<T> instanceReflector() {
-        return new InstanceReflector<>(clazz, this);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Optional<FieldReflector> field(String fieldName) {
-        return this.fields.stream()
-                .filter(f -> f.name().equals(fieldName))
-                .findFirst();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public List<FieldReflector> fields() {
-        return this.fields;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public <E extends Annotation> E annotation(Class<E> annotation) {
-        return clazz.getAnnotation(annotation);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

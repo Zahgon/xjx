@@ -13,6 +13,7 @@ public record Token<T>(Type type, T value) {
     }
 
     public enum Type {
+
         START_TAG,
         END_TAG,
         START_COMMENT,
@@ -24,6 +25,6 @@ public record Token<T>(Type type, T value) {
 
     @Override
     public String toString() {
-        return String.format("%s = %s", type, value);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -26,10 +26,7 @@ public class BufferedPositionedReader implements PositionedReader {
 
     @Override
     public String currentLine() {
-        if (currentLine != null && currentLinePos < currentLine.length()) {
-            return currentLine.substring(currentLinePos);
-        }
-        return null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private String readNextLine() {
@@ -52,110 +49,50 @@ public class BufferedPositionedReader implements PositionedReader {
 
     @Override
     public String peekLine() {
-        if (currentLine == null) {
-            return null;
-        }
-        if (currentLine.length() == currentLinePos) {
-            readNextLine();
-            if (currentLine == null) {
-                return null;
-            }
-        }
-        return currentLine.substring(currentLinePos);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Character readOneChar() {
-        if (currentLine == null) {
-            return null;
-        }
-        if (currentLine.length() == currentLinePos) {
-            readNextLine();
-            if (currentLine == null) {
-                return null;
-            }
-            return '\n';
-        }
-        return currentLine.charAt(currentLinePos++);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public char peekOneChar() {
-        if (currentLine.length() == currentLinePos) {
-            return '\n';
-        }
-        return currentLine.charAt(currentLinePos);
-
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String readChars(int i) {
-        currentLinePos += i;
-        return currentLine.substring(currentLinePos - i, currentLinePos);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean hasMoreToRead() {
-        if (currentLine.length() == currentLinePos) {
-            currentLine = readNextLine();
-        }
-        return hasMoreToRead;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Optional<String> readUntil(String until) {
-        if (currentLine == null) {
-            return Optional.empty();
-        }
-        var currentLineUntilPos = currentLine.substring(currentLinePos);
-        var indexOfUntil = currentLineUntilPos.indexOf(until);
-        if (indexOfUntil == -1) {
-            this.currentLinePos = currentLine.length();
-            readNextLine();
-            return readUntil(until)
-                    .map(read -> currentLineUntilPos + "\n" + read);
-        } else {
-            var read = currentLineUntilPos.substring(0, indexOfUntil);
-            this.currentLinePos = this.currentLinePos + indexOfUntil + until.length();
-            return Optional.of(read);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Character getCurrentChar() {
-        if (currentLine == null) {
-            return null;
-        }
-        return currentLine.charAt(currentLinePos - 1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void ltrim() {
-        if (currentLine == null) {
-            return;
-        }
-        if (currentLine.length() == currentLinePos) {
-            readNextLine();
-            if (currentLine == null) {
-                return;
-            }
-        }
-        String replacedLine = removeLeadingWhitespace(currentLine());
-        currentLinePos += (currentLine().length() - replacedLine.length());
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public static String removeLeadingWhitespace(String input) {
-        int length = input.length();
-        int startIndex = 0;
-        while (startIndex < length && Character.isWhitespace(input.charAt(startIndex))) {
-            startIndex++;
-        }
-        return input.substring(startIndex);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 
     @Override
     public String toString() {
-        return currentLine.substring(0, currentLinePos) + "|" + currentLine.substring(currentLinePos);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

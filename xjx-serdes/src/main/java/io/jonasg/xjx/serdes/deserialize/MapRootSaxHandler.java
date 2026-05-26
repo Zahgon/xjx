@@ -5,7 +5,6 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
 import io.jonasg.xjx.sax.Attribute;
 import io.jonasg.xjx.sax.SaxHandler;
 
@@ -38,42 +37,25 @@ public class MapRootSaxHandler implements SaxHandler {
 
     @Override
     public void startDocument() {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void startTag(String namespace, String name, List<Attribute> attributes) {
-        if (this.rootTag != null || !skipRootTag) {
-            Map<String, Object> activeMap = this.mapsStack.getLast();
-            Map<String, Object> newMap = new LinkedHashMap<>();
-            activeMap.put(name, newMap);
-            this.mapsStack.add(newMap);
-            this.prevStartTag = name;
-        }
-        if (this.rootTag == null) {
-            this.rootTag = name;
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void endTag(String namespace, String name) {
-        if (name.equals(this.prevStartTag)) {
-            this.mapsStack.removeLast();
-        }
-        if (characterData != null) {
-            Map<String, Object> currentMap = this.mapsStack.getLast();
-            currentMap.put(name, characterData);
-            this.characterData = null;
-        } else {
-            this.mapsStack.removeLast();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public void characters(String data) {
-        this.characterData = data;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Map<String, Object> instance() {
-        return instance;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

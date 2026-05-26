@@ -5,7 +5,6 @@ import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
-
 import io.jonasg.xjx.sax.SaxParser;
 import io.jonasg.xjx.serdes.deserialize.config.ConfigurationBuilder;
 import io.jonasg.xjx.serdes.deserialize.MapOf;
@@ -30,34 +29,33 @@ public class XjxSerdes {
 
     private final XmlStringBuilder xmlStringBuilder;
 
-	private final XjxConfiguration configuration;
+    private final XjxConfiguration configuration;
 
-	private XjxSerdes(SaxParser saxParser,
-			XmlStringBuilder xmlStringBuilder,
-			Consumer<ConfigurationBuilder> configurationBuilder) {
-		this.configuration = new XjxConfiguration();
-		configurationBuilder.accept(new ConfigurationBuilder(configuration));
+    private XjxSerdes(SaxParser saxParser, XmlStringBuilder xmlStringBuilder, Consumer<ConfigurationBuilder> configurationBuilder) {
+        this.configuration = new XjxConfiguration();
+        configurationBuilder.accept(new ConfigurationBuilder(configuration));
         this.saxParser = saxParser;
         this.pathWriterIndexFactory = new PathWriterIndexFactory(configuration);
         this.xmlStringBuilder = xmlStringBuilder;
-	}
+    }
 
     /**
      * Constructs an XjxSerdes instance with default configurations.
      */
     public XjxSerdes() {
-        this(new SaxParser(), new XmlStringBuilder(), (builder) -> {});
+        this(new SaxParser(), new XmlStringBuilder(), (builder) -> {
+        });
     }
 
-	/**
-	 * Constructs an XjxSerdes instance with custom configurations.
-	 * @param configurationBuilder The configuration builder to configure the XjxSerdes instance.
-	 */
-	public XjxSerdes(Consumer<ConfigurationBuilder> configurationBuilder) {
-		this(new SaxParser(), new XmlStringBuilder(), configurationBuilder);
-	}
+    /**
+     * Constructs an XjxSerdes instance with custom configurations.
+     * @param configurationBuilder The configuration builder to configure the XjxSerdes instance.
+     */
+    public XjxSerdes(Consumer<ConfigurationBuilder> configurationBuilder) {
+        this(new SaxParser(), new XmlStringBuilder(), configurationBuilder);
+    }
 
-	/**
+    /**
      * Reads XML data and deserializes it into an object of the specified class.
      *
      * @param data  The XML data to read.
@@ -66,7 +64,7 @@ public class XjxSerdes {
      * @return The deserialized object.
      */
     public <T> T read(String data, Class<T> clazz) {
-        return read(new StringReader(data), clazz);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -78,11 +76,8 @@ public class XjxSerdes {
      * @return The deserialized object.
      */
     public <T> T read(Reader data, Class<T> clazz) {
-        PathBasedSaxHandler<T> saxHandler = new PathBasedSaxHandler<>((rootTag) -> pathWriterIndexFactory.createIndexForType(clazz, rootTag), this.configuration);
-        saxParser.parse(data, saxHandler);
-        return saxHandler.instance();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 
     /**
      * Reads XML data and deserializes it into a map with specified key and value types.
@@ -101,20 +96,12 @@ public class XjxSerdes {
      * }</pre>
      */
     public <K, V> Map<K, V> read(String data, MapOf<K, V> mapOf) {
-        return read(new StringReader(data), mapOf);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @SuppressWarnings("unchecked")
     public <K, V> Map<K, V> read(Reader data, MapOf<K, V> mapOf) {
-        Class<?> keyType = mapOf.keyType();
-        Class<?> valueType = mapOf.valueType();
-        if (keyType == String.class && valueType == Object.class) {
-            HashMap<String, Object> map = new HashMap<>();
-            MapRootSaxHandler mapRootSaxHandler = new MapRootSaxHandler(map, true);
-            saxParser.parse(data, mapRootSaxHandler);
-            return (Map<K, V>) map;
-        }
-        throw new XjxDeserializationException("Maps only support String as key");
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     /**
@@ -125,8 +112,6 @@ public class XjxSerdes {
      * @return The XML representation of the object.
      */
     public <T> String write(T data) {
-        var nodes = xmlNodeStructureFactory.build(data);
-        return xmlStringBuilder.build(nodes);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

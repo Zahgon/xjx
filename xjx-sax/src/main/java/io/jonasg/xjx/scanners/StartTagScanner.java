@@ -10,24 +10,7 @@ class StartTagScanner implements Scanner {
 
     @Override
     public Scanner scan(PositionedReader reader, TokenEmitter emitter) {
-        char character;
-        reader.ltrim();
-        character = reader.readOneChar();
-        if (character != '<') {
-            throw new XmlParsingException("Start tag missing < in: '" + character + reader.currentLine() + "'");
-        }
-        var startTagName = tokenizeTag(reader);
-        var tagType = startTagName.type;
-        var tagName = startTagName.name;
-        var currentChar = reader.getCurrentChar();
-        Attributes attributes = Attributes.empty();
-        if (currentChar != null && currentChar != Character.valueOf('>')) {
-            var tokenizeAttributes = tokenizeAttributes(reader);
-            attributes = tokenizeAttributes.attributes;
-            tagType = tokenizeAttributes.tagType == null ? tagType : tokenizeAttributes.tagType;
-        }
-        emitter.emit(new Token<>(tagType, startTag(tagName, attributes)));
-        return Scanner.nextScanner(reader);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private StartTag startTag(String name, Attributes attributes) {
@@ -37,7 +20,6 @@ class StartTagScanner implements Scanner {
             var splitName = name.split(":");
             namespace = splitName[0];
             actualName = splitName[1];
-
         }
         return attributes.isPresent() ? new StartTag(actualName, namespace, attributes) : new StartTag(actualName, namespace);
     }
@@ -105,10 +87,8 @@ class StartTagScanner implements Scanner {
     }
 
     private record StartTagName(String name, Token.Type type) {
-
     }
 
     private record TokenizedAttributes(Token.Type tagType, Attributes attributes) {
-
     }
 }

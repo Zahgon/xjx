@@ -7,9 +7,6 @@ public class WhiteSpaceScanner implements Scanner {
 
     @Override
     public Scanner scan(PositionedReader reader, TokenEmitter tokenEmitter) {
-        while (reader.hasMoreToRead() && Character.isWhitespace(reader.peekOneChar())) {
-            reader.readOneChar();
-        }
-        return Scanner.nextScanner(reader);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

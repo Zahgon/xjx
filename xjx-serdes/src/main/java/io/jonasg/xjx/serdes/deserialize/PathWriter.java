@@ -12,41 +12,34 @@ public class PathWriter {
     private Consumer<Object> valueInitializer;
 
     public static PathWriter rootInitializer(Supplier<Object> rootInitializer) {
-        PathWriter pathWriter = new PathWriter();
-        pathWriter.rootInitializer = rootInitializer;
-        return pathWriter;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public static PathWriter objectInitializer(Supplier<Object> objectInitializer) {
-        PathWriter pathWriter = new PathWriter();
-        pathWriter.objectInitializer = objectInitializer;
-        return pathWriter;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void setRootInitializer(Supplier<Object> rootInitializer) {
-        this.rootInitializer = rootInitializer;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-	public PathWriter setValueInitializer(Consumer<Object> valueInitializer) {
-		this.valueInitializer = valueInitializer;
-		return this;
-	}
+    public PathWriter setValueInitializer(Consumer<Object> valueInitializer) {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
     public static PathWriter valueInitializer(Consumer<Object> o) {
-        PathWriter pathWriter = new PathWriter();
-        pathWriter.valueInitializer = o;
-        return pathWriter;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Supplier<Object> getRootInitializer() {
-        return rootInitializer;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Supplier<Object> getObjectInitializer() {
-        return objectInitializer;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Consumer<Object> getValueInitializer() {
-        return valueInitializer;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -6,6 +6,7 @@ import io.jonasg.xjx.serdes.reflector.FieldReflector;
 public class TagPath {
 
     private final Tag tag;
+
     private final FieldReflector field;
 
     public TagPath(Tag tag, FieldReflector field) {
@@ -14,18 +15,18 @@ public class TagPath {
     }
 
     public boolean isAbsolute() {
-        return tag.path().trim().startsWith("/");
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public FieldReflector field() {
-        return field;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String path() {
-        return tag.path().trim();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String attribute() {
-        return tag.attribute();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

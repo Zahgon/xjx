@@ -17,11 +17,11 @@ public abstract class MapOf<K, V> {
 
     @SuppressWarnings("unchecked")
     public Class<K> keyType() {
-        return (Class<K>) keyType;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @SuppressWarnings("unchecked")
     public Class<V> valueType() {
-        return (Class<V>) valueType;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

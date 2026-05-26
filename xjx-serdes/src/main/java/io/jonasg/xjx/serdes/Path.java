@@ -12,9 +12,7 @@ public class Path implements Iterable<Section> {
     private String attribute;
 
     private Path(String... paths) {
-        Arrays.stream(paths)
-                .filter(p -> !p.isEmpty())
-                .forEach(sections::add);
+        Arrays.stream(paths).filter(p -> !p.isEmpty()).forEach(sections::add);
     }
 
     private Path(LinkedList<String> sections, String section) {
@@ -27,84 +25,62 @@ public class Path implements Iterable<Section> {
     }
 
     public static Path of(String... paths) {
-        return new Path(paths);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public static Path parse(String path) {
-        return Path.of(path.split("/"));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Path appendAttribute(String attribute) {
-		var copiedSections = new LinkedList<>(this.sections);
-		var path = new Path(copiedSections);
-		path.attribute = attribute;
-		return path;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Path append(String section) {
-        return new Path(sections, section);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Path append(Path path) {
-        var copiedSections = new LinkedList<>(this.sections);
-        copiedSections.addAll(path.sections);
-        return new Path(copiedSections);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Path pop() {
-        if (!sections.isEmpty()) {
-            LinkedList<String> newSections = new LinkedList<>(sections);
-            newSections.removeLast();
-            return new Path(newSections);
-        } else {
-            return new Path();
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public String getRoot() {
-        return sections.getFirst();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public int size() {
-        return sections.size();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isRoot() {
-        return sections.size() == 1;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Section getSection(int position) {
-        return new Section(this.sections.get(position), position == this.sections.size() - 1);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public Iterator<Section> iterator() {
-        int size = sections.size();
-        return sections.stream()
-                .map(s -> new Section(s, sections.indexOf(s) == size - 1))
-                .iterator();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Path path = (Path) o;
-
-        if (!sections.equals(path.sections)) return false;
-        return Objects.equals(attribute, path.attribute);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-        int result = sections.hashCode();
-        result = 31 * result + Objects.hashCode(attribute);
-        return result;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String toString() {
-        return "/" + String.join("/", sections) + (attribute == null ? "" : "[" + attribute + "]");
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -9,24 +9,10 @@ public class ValueDeserializationHandler {
     private static ValueDeserializationHandler instance;
 
     public static ValueDeserializationHandler getInstance() {
-        if (instance == null) {
-            instance = new ValueDeserializationHandler();
-        }
-        return instance;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Optional<Object> handle(Field field, String value) {
-        ValueDeserialization valueDeserialization = field.getAnnotation(ValueDeserialization.class);
-        if (valueDeserialization != null) {
-            try {
-                var valueDeserializer = valueDeserialization.value().getConstructor().newInstance();
-                return Optional.of(valueDeserializer.deserializer(value));
-            } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |
-                     IllegalAccessException e) {
-                throw new RuntimeException(e);
-            }
-
-        }
-        return Optional.empty();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }

@@ -6,6 +6,7 @@ import java.util.StringJoiner;
 import java.util.stream.Stream;
 
 public class Attributes {
+
     private final Map<String, String> attributes = new LinkedHashMap<>();
 
     public Attributes(String... values) {
@@ -15,7 +16,6 @@ public class Attributes {
             String attributeValue = values[i + 1];
             attributes.put(attributeName, attributeValue);
         }
-
         if (length % 2 == 1) {
             String attributeName = values[length - 1];
             attributes.put(attributeName, null);
@@ -23,50 +23,40 @@ public class Attributes {
     }
 
     public static Attributes empty() {
-        return new Attributes();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public void add(String attributeName, String attributeValue) {
-        attributes.put(attributeName, attributeValue);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isPresent() {
-        return !attributes.isEmpty();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Stream<Attribute> stream() {
-        return attributes.entrySet()
-                .stream()
-                .map(e -> new Attribute(e.getKey(), e.getValue()));
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isEmpty() {
-        return attributes.isEmpty();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-
-    public record Attribute(String name, String value) {}
+    public record Attribute(String name, String value) {
+    }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Attributes that = (Attributes) o;
-
-        return attributes.equals(that.attributes);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public int hashCode() {
-        return attributes.hashCode();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", Attributes.class.getSimpleName() + "[", "]")
-                .add("attributes=" + attributes)
-                .toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }
-

@@ -8,9 +8,6 @@ class StartCommentScanner implements Scanner {
 
     @Override
     public Scanner scan(PositionedReader reader, TokenEmitter tokenEmitter) {
-        reader.readChars(4);
-        tokenEmitter.emit(new Token<>(Token.Type.START_COMMENT));
-        return new CommentBodyScanner();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

@@ -10,11 +10,6 @@ class CDATAScanner implements Scanner {
 
     @Override
     public Scanner scan(PositionedReader reader, TokenEmitter tokenEmitter) {
-        reader.readChars(CDATA_OPENING_TAG_LENGTH);
-        var characters = reader.readUntil("]]>")
-                .orElseThrow(() -> new XmlParsingException("CDATA tag found without closing ]]"));
-        tokenEmitter.emit(new Token<>(Token.Type.CHARACTER_DATA, characters));
-        return Scanner.nextScanner(reader);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
-
 }

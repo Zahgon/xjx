@@ -5,11 +5,7 @@ import java.util.List;
 public class XmlStringBuilder {
 
     public String build(XmlNode nodes) {
-        var sb = new StringBuilder();
-        sb.append("<").append(nodes.name()).append(">\n");
-        buildNodes(nodes.children(), sb);
-        sb.append("</").append(nodes.name()).append(">\n");
-        return sb.toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private void buildNodes(List<XmlNode> nodes, StringBuilder sb) {
@@ -19,20 +15,11 @@ public class XmlStringBuilder {
 
     private void buildNodes(List<XmlNode> nodes, StringBuilder sb, int indentationLevel) {
         String indentation = "  ".repeat(indentationLevel);
-
         nodes.forEach(node -> {
-            sb.append(indentation)
-                    .append("<").append(node.name());
-
+            sb.append(indentation).append("<").append(node.name());
             if (node.hasAttributes()) {
-                node.attributes().stream().forEach(attribute ->
-                        sb.append(" ")
-                                .append(attribute.name())
-                                .append("=\"")
-                                .append(attribute.value())
-                                .append("\""));
+                node.attributes().stream().forEach(attribute -> sb.append(" ").append(attribute.name()).append("=\"").append(attribute.value()).append("\""));
             }
-
             if (node.hasChildren() || node.containsAValue()) {
                 sb.append(">");
                 if (node.containsAValue()) {
@@ -49,5 +36,4 @@ public class XmlStringBuilder {
             }
         });
     }
-
 }

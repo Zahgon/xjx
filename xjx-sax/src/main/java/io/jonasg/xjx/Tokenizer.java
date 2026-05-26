@@ -5,7 +5,6 @@ import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
-
 import io.jonasg.xjx.scanners.Scanner;
 import io.jonasg.xjx.scanners.WhiteSpaceScanner;
 
@@ -15,7 +14,7 @@ import io.jonasg.xjx.scanners.WhiteSpaceScanner;
 public class Tokenizer {
 
     public Stream<Token<?>> tokenize(Reader reader) {
-        return StreamSupport.stream(new TokenSpliterator(reader), false);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     static class TokenSpliterator implements Spliterator<Token<?>> {
@@ -31,27 +30,22 @@ public class Tokenizer {
 
         @Override
         public boolean tryAdvance(Consumer<? super Token<?>> action) {
-            if (scanner == null) {
-                return false;
-            }
-            scanner = scanner.scan(reader, action::accept);
-            return true;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public Spliterator<Token<?>> trySplit() {
-            return null;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public long estimateSize() {
-            return Long.MAX_VALUE;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
 
         @Override
         public int characteristics() {
-            return ORDERED;
+            throw new UnsupportedOperationException("STUB: not implemented");
         }
     }
-
 }

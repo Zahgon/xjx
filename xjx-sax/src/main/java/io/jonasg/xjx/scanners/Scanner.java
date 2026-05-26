@@ -7,22 +7,21 @@ import io.jonasg.xjx.TokenEmitter;
 public interface Scanner {
 
     Scanner START_COMMENT_SCANNER = new StartCommentScanner();
+
     Scanner END_TAG_SCANNER = new EndTagScanner();
+
     Scanner START_TAG_SCANNER = new StartTagScanner();
+
     Scanner CDATA_SCANNER = new CDATAScanner();
+
     Scanner CHARACTER_SCANNER = new CharacterScanner();
+
     Scanner DOCUMENT_START_SCANNER = new DocumentTypeDeclarationScanner();
+
     Scanner WHITE_SPACE_SCANNER = new WhiteSpaceScanner();
 
     static Scanner nextScanner(PositionedReader reader) {
-        var peekedLine = reader.peekLine();
-        if (peekedLine == null) {
-            return null;
-        }
-        if (!peekedLine.isEmpty()) {
-            return scannerForLine(peekedLine);
-        }
-        return WHITE_SPACE_SCANNER;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private static Scanner scannerForLine(String peekedLine) {
@@ -58,5 +57,4 @@ public interface Scanner {
     }
 
     Scanner scan(PositionedReader reader, TokenEmitter tokenEmitter);
-
 }

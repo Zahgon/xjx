@@ -16,7 +16,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Supplier;
-
 import io.jonasg.xjx.serdes.Path;
 import io.jonasg.xjx.serdes.Tag;
 import io.jonasg.xjx.serdes.TypeMappers;
@@ -27,42 +26,35 @@ import io.jonasg.xjx.serdes.reflector.TypeReflector;
 
 public class PathWriterIndexFactory {
 
-    public static final List<Class<?>> BASIC_TYPES = List.of(
-            String.class, Integer.class, int.class, Boolean.class, boolean.class, Long.class, long.class, BigDecimal.class, Double.class,
-            double.class, char.class, Character.class, LocalDate.class, LocalDateTime.class, ZonedDateTime.class);
+    public static final List<Class<?>> BASIC_TYPES = List.of(String.class, Integer.class, int.class, Boolean.class, boolean.class, Long.class, long.class, BigDecimal.class, Double.class, double.class, char.class, Character.class, LocalDate.class, LocalDateTime.class, ZonedDateTime.class);
 
-	private final XjxConfiguration configuration;
+    private final XjxConfiguration configuration;
 
-	private final Map<Class<?>, Object> collectionCacheType = new HashMap<>();
+    private final Map<Class<?>, Object> collectionCacheType = new HashMap<>();
 
-	public PathWriterIndexFactory(XjxConfiguration xjxConfiguration) {
-		this.configuration = xjxConfiguration;
-	}
+    public PathWriterIndexFactory(XjxConfiguration xjxConfiguration) {
+        this.configuration = xjxConfiguration;
+    }
 
-	public <T> PathWriterIndex createIndexForType(Class<T> type, String rootTag) {
-        Path path = Path.of(rootTag);
-        return buildIndex(type, path);
+    public <T> PathWriterIndex createIndexForType(Class<T> type, String rootTag) {
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     private <T> PathWriterIndex buildIndex(Class<T> type, Path path) {
-		var index = new PathWriterIndex();
-		if (type.isRecord()) {
-			RecordWrapper<T> recordWrapper = new RecordWrapper<>(type);
-			index.put(path, PathWriter.rootInitializer(() -> recordWrapper));
-			return doBuildIndex(type, path, index, () -> recordWrapper);
-		} else {
-			T root = TypeReflector.reflect(type).instanceReflector().instance();
-			index.put(path, PathWriter.rootInitializer(() -> root));
-			return doBuildIndex(type, path, index, () -> root);
-		}
+        var index = new PathWriterIndex();
+        if (type.isRecord()) {
+            RecordWrapper<T> recordWrapper = new RecordWrapper<>(type);
+            index.put(path, PathWriter.rootInitializer(() -> recordWrapper));
+            return doBuildIndex(type, path, index, () -> recordWrapper);
+        } else {
+            T root = TypeReflector.reflect(type).instanceReflector().instance();
+            index.put(path, PathWriter.rootInitializer(() -> root));
+            return doBuildIndex(type, path, index, () -> root);
+        }
     }
 
-    private PathWriterIndex doBuildIndex(Class<?> type,
-                                               Path path,
-                                               PathWriterIndex index,
-                                               Supplier<Object> root) {
-        TypeReflector.reflect(type).fields()
-                .forEach(field -> indexField(field, index, path, root));
+    private PathWriterIndex doBuildIndex(Class<?> type, Path path, PathWriterIndex index, Supplier<Object> root) {
+        TypeReflector.reflect(type).fields().forEach(field -> indexField(field, index, path, root));
         return index;
     }
 
@@ -76,27 +68,27 @@ public class PathWriterIndexFactory {
         } else if (Map.class.equals(field.type())) {
             indexMapType(field, index, path, parent);
         } else if (field.type().isEnum()) {
-			indexEnumType(field, index, path, parent);
-		} else if (field.isRecord()) {
-			indexRecordType(field, index, path, parent);
+            indexEnumType(field, index, path, parent);
+        } else if (field.isRecord()) {
+            indexRecordType(field, index, path, parent);
         } else {
             indexComplexType(field, index, path, parent);
         }
     }
 
-	private void indexRecordType(FieldReflector field, PathWriterIndex index, Path path, Supplier<Object> parent) {
-		RecordWrapper<?> recordWrapper = new RecordWrapper<>(field.type());
-		index.put(getPathForField(field, path), PathWriter.objectInitializer(() -> {
-			return recordWrapper;
-		}).setValueInitializer((value) -> {
-			if (value instanceof RecordWrapper<?> recordWrapperValue) {
-				FieldAccessor.of(field, parent.get(), configuration).set(recordWrapperValue.record());
-			}
-		}));
-		doBuildIndex(field.type(), getPathForField(field, path), index, () -> recordWrapper);
-	}
+    private void indexRecordType(FieldReflector field, PathWriterIndex index, Path path, Supplier<Object> parent) {
+        RecordWrapper<?> recordWrapper = new RecordWrapper<>(field.type());
+        index.put(getPathForField(field, path), PathWriter.objectInitializer(() -> {
+            return recordWrapper;
+        }).setValueInitializer((value) -> {
+            if (value instanceof RecordWrapper<?> recordWrapperValue) {
+                FieldAccessor.of(field, parent.get(), configuration).set(recordWrapperValue.record());
+            }
+        }));
+        doBuildIndex(field.type(), getPathForField(field, path), index, () -> recordWrapper);
+    }
 
-	private void indexMapType(FieldReflector field, PathWriterIndex index, Path path, Supplier<Object> parent) {
+    private void indexMapType(FieldReflector field, PathWriterIndex index, Path path, Supplier<Object> parent) {
         Path pathForField = getPathForField(field, path);
         if (pathForField.isRoot()) {
             indexMapAsRootType(field, index, parent, pathForField);
@@ -105,10 +97,7 @@ public class PathWriterIndexFactory {
         }
     }
 
-    private void doIndexMapType(FieldReflector field,
-                                       PathWriterIndex index,
-                                       Supplier<Object> parent,
-                                       Path pathForField) {
+    private void doIndexMapType(FieldReflector field, PathWriterIndex index, Supplier<Object> parent, Path pathForField) {
         index.put(pathForField, PathWriter.objectInitializer(() -> {
             Map<String, Object> map = new HashMap<>();
             Class<?> valueType = (Class<?>) ((ParameterizedType) field.genericType()).getActualTypeArguments()[1];
@@ -121,10 +110,7 @@ public class PathWriterIndexFactory {
         }));
     }
 
-    private void indexMapAsRootType(FieldReflector field,
-                                           PathWriterIndex index,
-                                           Supplier<Object> parent,
-                                           Path pathForField) {
+    private void indexMapAsRootType(FieldReflector field, PathWriterIndex index, Supplier<Object> parent, Path pathForField) {
         index.put(pathForField, PathWriter.rootInitializer(() -> {
             Map<String, Object> map = new HashMap<>();
             FieldAccessor.of(field, parent.get(), configuration).set(map);
@@ -132,31 +118,24 @@ public class PathWriterIndexFactory {
         }));
     }
 
-    private void indexComplexType(FieldReflector field,
-                                  PathWriterIndex index,
-                                  Path path,
-                                  Supplier<Object> parent) {
+    private void indexComplexType(FieldReflector field, PathWriterIndex index, Path path, Supplier<Object> parent) {
         if (field.hasAnnotation(Tag.class)) {
             doIndexComplexType(field, index, path, parent);
         } else {
-            searchFieldsRecursivelyForTag(field)
-                    .ifPresent(tagPath -> {
-                        if (tagPath.isAbsolute()) {
-                            doIndexComplexType(field, index, path, parent);
-                        } else {
-                            throw new XjxDeserializationException("Field " + tagPath.field().name() +
-                                                                  " is annotated with @Tag but one of it's parent " +
-                                                                  "is missing a @Tag.");
-                        }
-                    });
+            searchFieldsRecursivelyForTag(field).ifPresent(tagPath -> {
+                if (tagPath.isAbsolute()) {
+                    doIndexComplexType(field, index, path, parent);
+                } else {
+                    throw new XjxDeserializationException("Field " + tagPath.field().name() + " is annotated with @Tag but one of it's parent " + "is missing a @Tag.");
+                }
+            });
         }
     }
 
     private void doIndexComplexType(FieldReflector field, PathWriterIndex index, Path path, Supplier<Object> parent) {
         if (field.hasAnnotation(ValueDeserialization.class)) {
             index.put(getPathForField(field, path), PathWriter.valueInitializer((value) -> {
-                value = ValueDeserializationHandler.getInstance().handle(field.rawField(), (String) value)
-                        .orElse(value);
+                value = ValueDeserializationHandler.getInstance().handle(field.rawField(), (String) value).orElse(value);
                 FieldAccessor.of(field, parent.get(), configuration).set(value);
             }));
         } else {
@@ -177,10 +156,8 @@ public class PathWriterIndexFactory {
         if (field.hasAnnotation(Tag.class)) {
             return Optional.of(new TagPath(field.getAnnotation(Tag.class), field));
         }
-
         Class<?> fieldType = field.type();
         Field[] fields = fieldType.getDeclaredFields();
-
         for (Field subField : fields) {
             FieldReflector subFieldReflector = new FieldReflector(subField);
             if (BASIC_TYPES.contains(subField.getType())) {
@@ -197,8 +174,7 @@ public class PathWriterIndexFactory {
     private void indexEnumType(FieldReflector field, PathWriterIndex index, Path path, Supplier<Object> parent) {
         index.put(getPathForField(field, path), PathWriter.valueInitializer((value) -> {
             if (field.hasAnnotation(ValueDeserialization.class)) {
-                value = ValueDeserializationHandler.getInstance().handle(field.rawField(), (String) value)
-                        .orElse(value);
+                value = ValueDeserializationHandler.getInstance().handle(field.rawField(), (String) value).orElse(value);
             }
             FieldAccessor.of(field, parent.get(), configuration).set(value);
         }));
@@ -208,8 +184,7 @@ public class PathWriterIndexFactory {
         if (field.hasAnnotation(Tag.class)) {
             index.put(getPathForField(field, path), PathWriter.valueInitializer((value) -> {
                 if (value instanceof String) {
-                    value = ValueDeserializationHandler.getInstance().handle(field.rawField(), (String) value)
-                            .orElse(value);
+                    value = ValueDeserializationHandler.getInstance().handle(field.rawField(), (String) value).orElse(value);
                 }
                 FieldAccessor.of(field, parent.get(), configuration).set(value);
             }));
@@ -220,10 +195,10 @@ public class PathWriterIndexFactory {
         LazySupplier<Collection<Object>> set = new LazySupplier<>(HashSet::new);
         Path path = getPathForField(field, parentPath);
         var pathWriter = PathWriter.objectInitializer(() -> {
-			var value = set.get();
-			if (!value.isEmpty()) {
-				set.reset(HashSet::new);
-			}
+            var value = set.get();
+            if (!value.isEmpty()) {
+                set.reset(HashSet::new);
+            }
             FieldAccessor.of(field, parent.get(), configuration).set(set.get());
             return set;
         });
@@ -234,7 +209,6 @@ public class PathWriterIndexFactory {
             });
         }
         index.put(path, pathWriter);
-
         indexListTypeArgument(path, field, index, set);
     }
 
@@ -243,27 +217,27 @@ public class PathWriterIndexFactory {
             if (collectionCacheType.get(typeArgument) != null) {
                 return collectionCacheType.get(typeArgument);
             }
-			if (typeArgument.isRecord()) {
-				var recordWrapper = new RecordWrapper<>(typeArgument);
-				collectionCacheType.put(typeArgument, recordWrapper);
-				return recordWrapper;
-			} else {
-				Object listTypeInstance = TypeReflector.reflect(typeArgument).instanceReflector().instance();
-				collectionCacheType.put(typeArgument, listTypeInstance);
-				return listTypeInstance;
-			}
+            if (typeArgument.isRecord()) {
+                var recordWrapper = new RecordWrapper<>(typeArgument);
+                collectionCacheType.put(typeArgument, recordWrapper);
+                return recordWrapper;
+            } else {
+                Object listTypeInstance = TypeReflector.reflect(typeArgument).instanceReflector().instance();
+                collectionCacheType.put(typeArgument, listTypeInstance);
+                return listTypeInstance;
+            }
         };
     }
 
     private void indexListType(FieldReflector field, PathWriterIndex index, Path parentPath, Supplier<Object> parent) {
-		LazySupplier<Collection<Object>> list = new LazySupplier<>(ArrayList::new);
+        LazySupplier<Collection<Object>> list = new LazySupplier<>(ArrayList::new);
         Path path = getPathForField(field, parentPath);
         var pathWriter = PathWriter.objectInitializer(() -> {
-			Collection<Object> value = list.get();
-			if (!value.isEmpty()) {
-				list.reset(ArrayList::new);
-			}
-			FieldAccessor.of(field, parent.get(), configuration).set(list.get());
+            Collection<Object> value = list.get();
+            if (!value.isEmpty()) {
+                list.reset(ArrayList::new);
+            }
+            FieldAccessor.of(field, parent.get(), configuration).set(list.get());
             return list;
         });
         if (path.isRoot()) {
@@ -273,7 +247,6 @@ public class PathWriterIndexFactory {
             });
         }
         index.put(path, pathWriter);
-
         indexListTypeArgument(path, field, index, list);
     }
 
@@ -289,18 +262,16 @@ public class PathWriterIndexFactory {
 
     private void indexSimpleTypeListTypeArgument(Path path, PathWriterIndex index, LazySupplier<Collection<Object>> list, FieldReflector field, Class<?> typeArgument) {
         Tag tag = field.getAnnotation(Tag.class);
-        index.put(path.append(Path.parse(tag.items())),
-                PathWriter.valueInitializer((o) -> list.get().add(TypeMappers.forType(typeArgument, configuration).apply(o))));
+        index.put(path.append(Path.parse(tag.items())), PathWriter.valueInitializer((o) -> list.get().add(TypeMappers.forType(typeArgument, configuration).apply(o))));
     }
 
     private void indexComplexListTypeArgument(PathWriterIndex index, LazySupplier<Collection<Object>> list, Class<?> typeArgument, FieldReflector field) {
         Supplier<Object> listTypeInstanceSupplier = collectionSupplierForType(typeArgument);
         Tag tag = field.getAnnotation(Tag.class);
         if (tag.items().isBlank()) {
-            throw new XjxDeserializationException(
-                  """
-                  Field (%s) requires @Tag to have items parameter describing\
-                   the tag name of a single repeated tag""".formatted(typeArgument.getSimpleName() ));
+            throw new XjxDeserializationException("""
+                Field (%s) requires @Tag to have items parameter describing\
+                 the tag name of a single repeated tag""".formatted(typeArgument.getSimpleName()));
         }
         Path path = Path.parse(tag.path()).append(Path.parse(tag.items()));
         index.put(path, PathWriter.objectInitializer(() -> {
@@ -309,11 +280,11 @@ public class PathWriterIndexFactory {
             list.get().add(listTypeInstance);
             return listTypeInstance;
         }).setValueInitializer((value) -> {
-			if (value instanceof RecordWrapper<?> recordWrapperValue) {
-				list.get().remove(recordWrapperValue);
-				list.get().add(recordWrapperValue.record());
-			}
-		}));
+            if (value instanceof RecordWrapper<?> recordWrapperValue) {
+                list.get().remove(recordWrapperValue);
+                list.get().add(recordWrapperValue.record());
+            }
+        }));
         doBuildIndex(typeArgument, path, index, listTypeInstanceSupplier);
     }
 

@@ -14,51 +14,44 @@ public class FieldReflector {
     }
 
     public String name() {
-        return field.getName();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public <T> void set(T instance, Object value) {
-        try {
-            field.setAccessible(true);
-            field.set(instance, value);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     @SuppressWarnings("unchecked")
     public <T> Class<T> type() {
-        return (Class<T>) field.getType();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public boolean isOfType(Class<?> type) {
-        return type() == type;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Field rawField() {
-        return field;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public Type genericType() {
-        return field.getGenericType();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public <T extends Annotation> T getAnnotation(Class<T> clazz) {
-        return field.getAnnotation(clazz);
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
     public <T extends Annotation> boolean hasAnnotation(Class<T> annotation) {
-        return field.getAnnotation(annotation) != null;
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 
-	public boolean isRecord() {
-		return field.getType().isRecord();
-	}
+    public boolean isRecord() {
+        throw new UnsupportedOperationException("STUB: not implemented");
+    }
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", FieldReflector.class.getSimpleName() + "[", "]")
-                .add("field=" + field)
-                .toString();
+        throw new UnsupportedOperationException("STUB: not implemented");
     }
 }
